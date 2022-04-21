@@ -1,22 +1,33 @@
 # source: https://github.com/JohnStrunk/OpenSprinkler-RPi-docker
-FROM alpine as base-img
+FROM debian:stable-slim as base-img
+
+LABEL about.license="SPDX:Apache-2.0"
 
 FROM base-img as build-img
-RUN apk --no-cache add \
-      bash \
-      ca-certificates \
+RUN apt-get update -qq -y && apt-get install --no-install-recommends -qq -y \
       g++ \
       unzip \
-      wget
+	    curl \
+      gnupg2 \
+      apt-transport-https \
+      ca-certificates \
+    && update-ca-certificates \
+    && apt-get -y autoclean \
+    && apt-get -y autoremove \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN wget https://github.com/OpenSprinkler/OpenSprinkler-Firmware/archive/master.zip \
+RUN curl -O https://github.com/OpenSprinkler/OpenSprinkler-Firmware/archive/master.zip \
       && unzip master.zip \
       && cd /OpenSprinkler-Firmware-master \
-      && ./build.sh -s ospi
+      && ./build.sh 
 
 FROM base-img
-RUN apk --no-cache add \
-      libstdc++ \
+RUN apt-get update -qq -y && apt-get install --no-install-recommends -qq -y \
+      libstdc++6 \
+      && update-ca-certificates \
+      && apt-get -y autoclean \
+      && apt-get -y autoremove \
+      && rm -rf /var/lib/apt/lists/* \
       && mkdir /OpenSprinkler \
       && mkdir -p /data/logs \
       && cd /OpenSprinkler \
