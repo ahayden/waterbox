@@ -1,13 +1,25 @@
 version: "3.8"
 
+# Source https://github.com/kanr/balena-opensprinkler/blob/master/docker-compose.yml
 services:
   waterbox:
     image: ghcr.io/ahayden/waterbox:base
     hostname: waterbox
+    devices:
+      - "/dev/mem:/dev/mem"
+      - "/dev/gpiomem:/dev/gpiomem"
+    cap_add:
+      - SYS_RAWIO
+    network_mode: host
+    privileged: true
+    ports:
+      - "8080:8080"
+    expose:
+      - "8080"
     environment:
       TERM: "xterm-color"
     extra_hosts:
-      - "base:127.0.0.1"
+      - "waterbox:127.0.0.1"
     container_name: waterbox
     volumes:
       - data:/data

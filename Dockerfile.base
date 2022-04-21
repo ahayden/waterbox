@@ -4,14 +4,14 @@ FROM balenalib/raspberry-pi-debian:buster
 LABEL about.license="SPDX:Apache-2.0"
 
 RUN apt-get update -qq -y && apt-get install --no-install-recommends -qq -y \
-      g++ \
-      unzip \
-	    wget \
-      gnupg2 \
-      libstdc++6 \
-      apt-transport-https \
-      ca-certificates \
-    && update-ca-certificates
+        g++ \
+        unzip \
+        wget \
+        gnupg2 \
+        libstdc++6 \
+        apt-transport-https \
+        ca-certificates \
+      && update-ca-certificates
 
 RUN wget https://github.com/OpenSprinkler/OpenSprinkler-Firmware/archive/master.zip \
       && unzip master.zip \
@@ -30,5 +30,13 @@ WORKDIR /OpenSprinkler-Firmware-master
 VOLUME /data
 
 EXPOSE 8080
+
+RUN addgroup open-sprinkler
+RUN adduser -D open-sprinkler -G open-sprinkler
+
+RUN addgroup -g 997 docker_gpio && addgroup open-sprinkler docker_gpio
+RUN addgroup -g 998 docker_i2c && addgroup open-sprinkler docker_i2c
+
+USER open-sprinkler
 
 CMD [ "./OpenSprinkler" ]
