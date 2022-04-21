@@ -1,5 +1,5 @@
 # source: https://github.com/JohnStrunk/OpenSprinkler-RPi-docker
-FROM balenalib/raspberry-pi-python:3.7-buster
+FROM balenalib/raspberry-pi-debian:buster
 
 LABEL about.license="SPDX:Apache-2.0"
 
