@@ -1,12 +1,14 @@
 version: "3.8"
 
 services:
-  ghcr-template:
-    image: ghcr.io/ahayden/ghcr-template:base
-    hostname: base
+  waterbox:
+    image: ghcr.io/ahayden/waterbox:base
+    hostname: waterbox
     environment:
       TERM: "xterm-color"
     extra_hosts:
       - "base:127.0.0.1"
-    container_name: base
+    container_name: waterbox
+    volumes:
+      - data:/data
 
