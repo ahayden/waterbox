@@ -11,10 +11,7 @@ RUN apt-get update -qq -y && apt-get install --no-install-recommends -qq -y \
       libstdc++6 \
       apt-transport-https \
       ca-certificates \
-    && update-ca-certificates \
-    && apt-get -y autoclean \
-    && apt-get -y autoremove \
-    && rm -rf /var/lib/apt/lists/*
+    && update-ca-certificates
 
 RUN wget https://github.com/OpenSprinkler/OpenSprinkler-Firmware/archive/master.zip \
       && unzip master.zip \
