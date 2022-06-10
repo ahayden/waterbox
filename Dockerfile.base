@@ -29,7 +29,7 @@ WORKDIR /OpenSprinkler-Firmware-master
 
 VOLUME /data
 
-EXPOSE 8080
+EXPOSE 8080 80
 
 RUN addgroup --system open-sprinkler
 RUN adduser --system --disabled-login open-sprinkler
